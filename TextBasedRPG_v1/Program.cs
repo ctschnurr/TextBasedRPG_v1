@@ -10,7 +10,8 @@ namespace TextBasedRPG_v1
     {
         static Map map = new Map();
         static Player player = new Player();
-        static bool gameOver = false;
+        static Enemy enemy = new Enemy();
+        public static bool gameOver = false;
         static void Main(string[] args)
         {
             Console.SetWindowSize(91, 41);
@@ -21,92 +22,33 @@ namespace TextBasedRPG_v1
 
             while (gameOver == false)
             {
-                map.PlayerDraw(player.x + 2, player.y + 1, player.character);
-                PlayerUpdate();
+                player.Draw(player.x + 2, player.y + 1, player.character);
+                enemy.Draw(enemy.x + 2, enemy.y + 1, enemy.character);
+                player.Update();
+                BattleCheck(player);
+                enemy.Update();
+                BattleCheck(enemy);
             }
 
         }
 
-        static void PlayerUpdate()
+        static void BattleCheck(Character agressor)
         {
-            bool isWalkable;
-            char destination = ' ';
-
-            ConsoleKeyInfo choice = Console.ReadKey(true);
-
-            Console.SetCursorPosition(player.x + 2, player.y + 1);
-            char tile = Map.map[player.y, player.x];
-
-            Map.DrawTile(tile);
-
-            switch (choice.Key)
+            if (player.x == enemy.x && player.y == enemy.y)
             {
-                case ConsoleKey.Escape:
-                    gameOver = true;
-                    break;
+                Console.WriteLine(agressor.name + " started a fight!");
 
-                case ConsoleKey.W:
-                    destination = Map.map[player.y - 1, player.x];
-                    isWalkable = map.CheckWalkable(destination);
+                switch (agressor.name)
+                {
+                    case "Player":
+                        Console.WriteLine("Player attacks first!");
+                        break;
 
-                    if (isWalkable == true)
-                    {
-                        player.y--;
+                    case "Enemy":
+                        Console.WriteLine("Enemy attacks first!");
                         break;
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                case ConsoleKey.S:
-                    destination = Map.map[player.y + 1, player.x];
-                    isWalkable = map.CheckWalkable(destination);
-
-                    if (isWalkable == true)
-                    {
-                        player.y++;
-                        break;
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                case ConsoleKey.A:
-                    destination = Map.map[player.y, player.x - 1];
-                    isWalkable = map.CheckWalkable(destination);
-
-                    if (isWalkable == true)
-                    {
-                        player.x--;
-                        break;
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                case ConsoleKey.D:
-                    destination = Map.map[player.y, player.x + 1];
-                    isWalkable = map.CheckWalkable(destination);
-
-                    if (isWalkable == true)
-                    {
-                        player.x++;
-                        break;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
+                }
             }
-
-            // CheckForDoor();
         }
     }
 }

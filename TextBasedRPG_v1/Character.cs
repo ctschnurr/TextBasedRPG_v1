@@ -10,5 +10,11 @@ namespace TextBasedRPG_v1
     {
         public int health = 10;
         public int strength = 10;
+        public string name;
+        public void Draw(int x, int y, char character)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.WriteLine(character);
+        }
     }
 }

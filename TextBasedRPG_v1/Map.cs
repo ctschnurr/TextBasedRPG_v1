@@ -109,13 +109,8 @@ namespace TextBasedRPG_v1
             }
             Console.ResetColor();
         }
-        public void PlayerDraw(int x, int y, char character)
-        {
-            Console.SetCursorPosition(x, y);
-            Console.WriteLine(character);
-        }
 
-        public bool CheckWalkable(char destination)
+        public static bool CheckWalkable(char destination)
         {
             bool goTime = false;
 
