@@ -26,7 +26,7 @@ namespace TextBasedRPG_v1
                 enemy.Draw(enemy.x + 2, enemy.y + 1, enemy.character);
                 player.Update();
                 BattleCheck(player);
-                enemy.Update();
+                enemy.Chase(player.x, player.y);
                 BattleCheck(enemy);
             }
 

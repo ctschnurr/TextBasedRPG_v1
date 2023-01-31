@@ -11,10 +11,14 @@ namespace TextBasedRPG_v1
         public char character = (char)1;
         public int x = 5;
         public int y = 5;
-
-        public void Update()
+        
+        public Player()
         {
             name = "Player";
+        }
+
+        public void Update()
+        { 
             bool isWalkable;
             bool isEnemy;
             char destination = ' ';
