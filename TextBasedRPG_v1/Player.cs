@@ -9,15 +9,19 @@ namespace TextBasedRPG_v1
     internal class Player: Character
     {
         public char character = (char)1;
-        public int x = 5;
-        public int y = 5;
-        
         public Player()
         {
             name = "Player";
+            healthMax = 100;
+            health = healthMax;
+            lives = 3;
+            x = 5;
+            y = 5;
+            spawn[0] = 5;
+            spawn[1] = 5;
         }
 
-        public void Update()
+        public void Update(char[,] map)
         { 
             bool isWalkable;
             bool isEnemy;
@@ -26,7 +30,7 @@ namespace TextBasedRPG_v1
             ConsoleKeyInfo choice = Console.ReadKey(true);
 
             Console.SetCursorPosition(x + 2, y + 1);
-            char tile = Map.map[y, x];
+            char tile = map[y, x];
 
             Map.DrawTile(tile);
 
@@ -37,7 +41,7 @@ namespace TextBasedRPG_v1
                     break;
 
                 case ConsoleKey.W:
-                    destination = Map.map[y - 1, x];
+                    destination = map[y - 1, x];
                     isWalkable = Map.CheckWalkable(destination);
 
                     if (isWalkable == true)
@@ -51,7 +55,7 @@ namespace TextBasedRPG_v1
                     }
 
                 case ConsoleKey.S:
-                    destination = Map.map[y + 1, x];
+                    destination = map[y + 1, x];
                     isWalkable = Map.CheckWalkable(destination);
 
                     if (isWalkable == true)
@@ -65,7 +69,7 @@ namespace TextBasedRPG_v1
                     }
 
                 case ConsoleKey.A:
-                    destination = Map.map[y, x - 1];
+                    destination = map[y, x - 1];
                     isWalkable = Map.CheckWalkable(destination);
 
                     if (isWalkable == true)
@@ -79,7 +83,7 @@ namespace TextBasedRPG_v1
                     }
 
                 case ConsoleKey.D:
-                    destination = Map.map[y, x + 1];
+                    destination = map[y, x + 1];
                     isWalkable = Map.CheckWalkable(destination);
 
                     if (isWalkable == true)
@@ -96,6 +100,13 @@ namespace TextBasedRPG_v1
                         break;
                     }
             }
+        }
+
+        public void ShowHud()
+        {
+            string hudHealth = health.ToString();
+            Console.SetCursorPosition(4, 40);
+            Console.WriteLine("Health: " + hudHealth.PadRight(5) + "Lives: " + lives);
         }
     }
 }

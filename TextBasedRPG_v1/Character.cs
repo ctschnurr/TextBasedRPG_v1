@@ -8,12 +8,19 @@ namespace TextBasedRPG_v1
 {
     internal class Character
     {
-        public int health = 10;
+        public int health;
+        public int healthMax;
+        public int lives;
         public int strength = 10;
         public string name;
-        public void Draw(int x, int y, char character)
+        bool living = true;
+        public int[] spawn = new int[] { 0, 0 };
+
+        public int x;
+        public int y;
+        public void Draw(int charX, int charY, char character)
         {
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(charX, charY);
             Console.WriteLine(character);
         }
     }

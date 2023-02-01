@@ -9,22 +9,27 @@ namespace TextBasedRPG_v1
     internal class Enemy: Character
     {
         public char character = (char)2;
-        public int x = 25;
-        public int y = 25;
 
         public Enemy()
         {
             name = "Enemy";
+            health = 50;
+            healthMax = 10;
+            lives = 100;
+            x = 25;
+            y = 25;
 
+            spawn[0] = 25;
+            spawn[1] = 25;
         }
 
-        public void Chase(int playerX, int playerY)
+        public void Chase(int playerX, int playerY, char[,] map)
         {
             bool isWalkable = true;
             char destination = ' ';
 
             Console.SetCursorPosition(x + 2, y + 1);
-            char tile = Map.map[y, x];
+            char tile = map[y, x];
 
             Map.DrawTile(tile);
 
@@ -95,7 +100,7 @@ namespace TextBasedRPG_v1
             switch (choice)
             {
                 case "left":
-                    destination = Map.map[y, x - 1];
+                    destination = map[y, x - 1];
                     isWalkable = Map.CheckWalkable(destination);
 
                     if (isWalkable == true)
@@ -109,7 +114,7 @@ namespace TextBasedRPG_v1
                     }
 
                 case "right":
-                    destination = Map.map[y, x + 1];
+                    destination = map[y, x + 1];
                     isWalkable = Map.CheckWalkable(destination);
 
                     if (isWalkable == true)
@@ -123,7 +128,7 @@ namespace TextBasedRPG_v1
                     }
 
                 case "up":
-                    destination = Map.map[y - 1, x];
+                    destination = map[y - 1, x];
                     isWalkable = Map.CheckWalkable(destination);
 
                     if (isWalkable == true)
@@ -137,7 +142,7 @@ namespace TextBasedRPG_v1
                     }
 
                 case "down":
-                    destination = Map.map[y + 1, x];
+                    destination = map[y + 1, x];
                     isWalkable = Map.CheckWalkable(destination);
 
                     if (isWalkable == true)
