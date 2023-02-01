@@ -12,15 +12,45 @@ namespace TextBasedRPG_v1
 
         public Enemy()
         {
-            name = "Enemy";
-            health = 50;
+            Random rand = new Random();
+            int roll = rand.Next(1, 6);
+            
+            switch (roll)
+            {
+                case 1:
+                    name = "Larry";
+                    break;
+
+                case 2:
+                    name = "Stan";
+                    break;
+
+                case 3:
+                    name = "Bucky";
+                    break;
+
+                case 4:
+                    name = "George";
+                    break;
+
+                case 5:
+                    name = "Steve";
+                    break;
+            }
+
+            type = "npc";
+            health = 100;
             healthMax = 10;
             lives = 100;
-            x = 25;
-            y = 25;
+            x = rand.Next(25, 30);
+            y = rand.Next(25, 30);
+        }
 
-            spawn[0] = 25;
-            spawn[1] = 25;
+        public void ShowHud()
+        {
+            string hudHealth = health.ToString();
+            Console.SetCursorPosition(42, 40);
+            Console.WriteLine("║ " + name.PadRight(name.Length + 1) + ": Health: " + hudHealth.PadRight(5));
         }
 
         public void Chase(int playerX, int playerY, char[,] map)

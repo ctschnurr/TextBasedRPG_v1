@@ -8,10 +8,10 @@ namespace TextBasedRPG_v1
 {
     internal class Program
     {
-        static Map getMap = new Map();
-        static Player player = new Player();
-        static Enemy enemy = new Enemy();
-        static bool redraw = true;
+        static public Map getMap = new Map();
+        static public Player player = new Player();
+        static public Enemy enemy = new Enemy();
+        static public bool redraw = true;
         public static bool gameOver = false;
 
         static void Main(string[] args)
@@ -22,7 +22,9 @@ namespace TextBasedRPG_v1
             Console.SetWindowSize(width, height);
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
             Console.CursorVisible = false;
-                        
+
+            MainMenu();
+
             while (gameOver == false)
             {
                 if (redraw)
@@ -36,10 +38,49 @@ namespace TextBasedRPG_v1
                 enemy.Draw(enemy.x + 2, enemy.y + 1, enemy.character);
                 player.Update(getMap.worldMap);
                 BattleCheck(player, enemy);
+                //Battle.BattleCheck(player);
                 enemy.Chase(player.x, player.y, getMap.worldMap);
                 BattleCheck(enemy, player);
             }
 
+        }
+
+        static void MainMenu()
+        {
+            getMap.DrawMap(getMap.blank_frame);
+            Console.SetCursorPosition(4, 3);
+            Console.WriteLine("Welcome to my Text Based RPG Prototype!");
+
+            Console.SetCursorPosition(4, 5);
+            Console.WriteLine("Please choose from the following options:");
+
+            Console.SetCursorPosition(4, 7);
+            Console.WriteLine("(N)ew Game");
+            Console.SetCursorPosition(4, 8);
+            Console.WriteLine("(Q)uit Game");
+
+            Console.SetCursorPosition(4, 40);
+            Console.WriteLine("By Chris Schnurr");
+
+            ConsoleKeyInfo choice = Console.ReadKey(true);
+
+            switch (choice.Key)
+            {
+                default:
+                    getMap.DrawMap(getMap.blank_frame);
+                    Console.SetCursorPosition(4, 40);
+                    Console.WriteLine("By Chris Schnurr");
+
+                    Console.SetCursorPosition(4, 3);
+                    Console.Write("Please enter your name: ");
+                    player.name = Console.ReadLine();
+
+                    break;
+
+                case ConsoleKey.Q:
+                    gameOver = true;
+                    break;
+            }
         }
 
         static void BattleCheck(Character first, Character second)
@@ -48,12 +89,23 @@ namespace TextBasedRPG_v1
             {
                 getMap.DrawMap(getMap.blank_frame);
                 player.ShowHud();
+                enemy.ShowHud();
 
-                int next = 3;
+                int next = 2;
                 Console.SetCursorPosition(4, next);
                 Console.WriteLine(first.name + " started a fight! " + first.name + " goes first!");
                 next += 2;
                 Console.ReadKey(true);
+
+                // testing
+
+                Console.SetCursorPosition(4, 38);
+                Console.WriteLine("Prototype Battle Menu");
+                Console.ReadKey(true);
+
+
+
+                // keep this
 
                 Random rand = new Random();
                 bool battleOver = false;
@@ -77,11 +129,11 @@ namespace TextBasedRPG_v1
 
                             Console.ReadKey(true);
 
-                            if (next > 38)
+                            if (next > 36)
                             {
                                 Console.Clear();
                                 getMap.DrawMap(getMap.blank_frame);
-                                next = 3;
+                                next = 2;
                             }
                         }
 
@@ -96,17 +148,18 @@ namespace TextBasedRPG_v1
 
                             second.health -= damage;
                             player.ShowHud();
+                            enemy.ShowHud();
 
                             Console.ReadKey(true);
 
-                            if (next > 38)
+                            if (next > 36)
                             {
                                 Console.Clear();
                                 getMap.DrawMap(getMap.blank_frame);
-                                next = 3;
+                                next = 2;
                             }
 
-                            if (second.health < 0)
+                            if (second.health <= 0)
                             {
                                 Console.SetCursorPosition(4, next);
                                 Console.WriteLine(second.name + " has DIED!");
@@ -131,11 +184,11 @@ namespace TextBasedRPG_v1
 
                             Console.ReadKey(true);
 
-                            if (next > 38)
+                            if (next > 36)
                             {
                                 Console.Clear();
                                 getMap.DrawMap(getMap.blank_frame);
-                                next = 3;
+                                next = 2;
                             }
                         }
 
@@ -150,17 +203,18 @@ namespace TextBasedRPG_v1
                             first.health -= damage;
 
                             player.ShowHud();
+                            enemy.ShowHud();
                             Console.ReadKey(true);
 
 
-                            if (next > 38)
+                            if (next > 36)
                             {
                                 Console.Clear();
                                 getMap.DrawMap(getMap.blank_frame);
-                                next = 3;
+                                next = 2;
                             }
 
-                            if (first.health < 0)
+                            if (first.health <= 0)
                             {
                                 Console.SetCursorPosition(4, next);
                                 Console.WriteLine(first.name + " has DIED!");
@@ -176,18 +230,20 @@ namespace TextBasedRPG_v1
 
                 }
 
-                loser.x = loser.spawn[0];
-                loser.y = loser.spawn[1];
-
                 if (loser == player)
                 {
                     Console.SetCursorPosition(4, next);
                     Console.WriteLine("I guess you suck, but I'll restore and respawn you!");
                     Console.ReadKey(true);
                     loser.lives -= 1;
+                    loser.x = loser.spawn[0];
+                    loser.y = loser.spawn[1];
                 }
 
-                loser.health = loser.healthMax;
+                else
+                {
+                    enemy = new Enemy();
+                }
 
             }
         }

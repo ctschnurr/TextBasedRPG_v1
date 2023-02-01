@@ -19,6 +19,7 @@ namespace TextBasedRPG_v1
             y = 5;
             spawn[0] = 5;
             spawn[1] = 5;
+            type = "player";
         }
 
         public void Update(char[,] map)
@@ -106,7 +107,7 @@ namespace TextBasedRPG_v1
         {
             string hudHealth = health.ToString();
             Console.SetCursorPosition(4, 40);
-            Console.WriteLine("Health: " + hudHealth.PadRight(5) + "Lives: " + lives);
+            Console.WriteLine(name.PadRight(name.Length + 1) + ": Health: " + hudHealth.PadRight(5) + "Lives: " + lives);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace TextBasedRPG_v1
         public int strength = 10;
         public string name;
         bool living = true;
+        public string type;
         public int[] spawn = new int[] { 0, 0 };
 
         public int x;
