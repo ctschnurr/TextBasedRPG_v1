@@ -39,7 +39,7 @@ namespace TextBasedRPG_v1
             }
 
             type = "npc";
-            health = 100;
+            health = 10;
             healthMax = 10;
             lives = 100;
             x = rand.Next(25, 30);

@@ -97,16 +97,6 @@ namespace TextBasedRPG_v1
                 next += 2;
                 Console.ReadKey(true);
 
-                // testing
-
-                Console.SetCursorPosition(4, 38);
-                Console.WriteLine("Prototype Battle Menu");
-                Console.ReadKey(true);
-
-
-
-                // keep this
-
                 Random rand = new Random();
                 bool battleOver = false;
                 int swing;
@@ -133,6 +123,8 @@ namespace TextBasedRPG_v1
                             {
                                 Console.Clear();
                                 getMap.DrawMap(getMap.blank_frame);
+                                player.ShowHud();
+                                enemy.ShowHud();
                                 next = 2;
                             }
                         }
@@ -156,6 +148,8 @@ namespace TextBasedRPG_v1
                             {
                                 Console.Clear();
                                 getMap.DrawMap(getMap.blank_frame);
+                                player.ShowHud();
+                                enemy.ShowHud();
                                 next = 2;
                             }
 
@@ -188,6 +182,8 @@ namespace TextBasedRPG_v1
                             {
                                 Console.Clear();
                                 getMap.DrawMap(getMap.blank_frame);
+                                player.ShowHud();
+                                enemy.ShowHud();
                                 next = 2;
                             }
                         }
@@ -211,6 +207,8 @@ namespace TextBasedRPG_v1
                             {
                                 Console.Clear();
                                 getMap.DrawMap(getMap.blank_frame);
+                                player.ShowHud();
+                                enemy.ShowHud();
                                 next = 2;
                             }
 
@@ -224,10 +222,8 @@ namespace TextBasedRPG_v1
                                 redraw = true;
                                 loser = first;
                             }
-
                         }
                     }                                
-
                 }
 
                 if (loser == player)
