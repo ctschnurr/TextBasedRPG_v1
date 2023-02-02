@@ -8,38 +8,22 @@ namespace TextBasedRPG_v1
 {
     internal class Enemy: Character
     {
-        public char character = (char)2;
+        public string[,] enemies = new string[,]
+        {
+            {"Zombie","10","3" },
+            {"Skeleton","15","5"},
+            {"Monster","20","7" },
+        };
 
+        public char character = (char)2;
         public Enemy()
         {
             Random rand = new Random();
-            int roll = rand.Next(1, 6);
+            int roll = rand.Next(0, 3);
             
-            switch (roll)
-            {
-                case 1:
-                    name = "Larry";
-                    break;
-
-                case 2:
-                    name = "Stan";
-                    break;
-
-                case 3:
-                    name = "Bucky";
-                    break;
-
-                case 4:
-                    name = "George";
-                    break;
-
-                case 5:
-                    name = "Steve";
-                    break;
-            }
-
+            name = enemies[roll, 0];
             type = "npc";
-            health = 10;
+            health = Int32.Parse(enemies[roll, 1]);
             healthMax = 10;
             lives = 100;
             x = rand.Next(25, 30);

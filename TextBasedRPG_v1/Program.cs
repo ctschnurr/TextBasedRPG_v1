@@ -37,10 +37,10 @@ namespace TextBasedRPG_v1
                 player.Draw(player.x + 2, player.y + 1, player.character);
                 enemy.Draw(enemy.x + 2, enemy.y + 1, enemy.character);
                 player.Update(getMap.worldMap);
-                BattleCheck(player, enemy);
-                //Battle.BattleCheck(player);
+                //BattleCheck(player, enemy);
+                Battle.BattleCheck(player, enemy);
                 enemy.Chase(player.x, player.y, getMap.worldMap);
-                BattleCheck(enemy, player);
+                Battle.BattleCheck(enemy, player);
             }
 
         }

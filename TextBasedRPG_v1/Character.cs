@@ -8,6 +8,8 @@ namespace TextBasedRPG_v1
 {
     internal class Character
     {
+
+
         public int health;
         public int healthMax;
         public int lives;

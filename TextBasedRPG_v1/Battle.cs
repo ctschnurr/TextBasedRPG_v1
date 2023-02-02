@@ -13,36 +13,142 @@ namespace TextBasedRPG_v1
         public static int next;
         public static void BattleCheck(Character first, Character second)
         {
-            Random rand = new Random();
             battleOver = true;
-            next = 2;
-            int swing;
-            int damage;
             int turn = 1;
-
-            Character loser = null;
+            ConsoleKeyInfo choice;
 
             if (first.x == second.x && first.y == second.y)
             {
                 battleOver = false;
                 ReDraw();
-            }
 
-            Console.SetCursorPosition(4, next);
-            Console.WriteLine(first.name + " started a fight! " + first.name + " goes first!");
-            next += 2;
+                Random rand = new Random();
+                next = 2;
+                int swing;
+                int damage;
+
+                Character loser = null;
+            }
 
             while (battleOver == false)
-            {                
-                battleOver = Attack(first, second);
+            {
+                if (turn == 1)
+                {
+                    Console.SetCursorPosition(4, next);
+                    Console.WriteLine(first.name + " started a fight! " + first.name + " goes first!");
+                    next += 2;
 
-                if (battleOver == false)
+                    battleOver = Attack(first, second);
+                    turn++;
+                }
+
+                if (battleOver == false && second.type == "player")
+                {
+
+                    Console.SetCursorPosition(4, next);
+                    Console.Write("(A)ttack   (R)un : ");
+                    next += 2;
+
+                    if (next > 36)
+                    {
+                        ReDraw();
+                        next = 2;
+                    }
+
+                    choice = Console.ReadKey(true); // build playerChoice()?;
+                    switch (choice.Key)
+                    {
+                        case ConsoleKey.A:
+                            battleOver = Attack(second, first);
+                            if (battleOver == true) loser = first;
+                            break;
+
+                        case ConsoleKey.R:
+                            // build run option
+                            Console.SetCursorPosition(4, next);
+                            Console.WriteLine("You don't know how to run yet!");
+                            next += 2;
+
+                            if (next > 36)
+                            {
+                                ReDraw();
+                                next = 2;
+                            }
+
+                            Console.ReadKey(true);
+                            break;
+                    }
+                }
+
+                if (battleOver == false && first.type == "npc")
+                {
+                    battleOver = Attack(first, second);
+                    if (battleOver == true) loser = second;
+                }
+
+                if (battleOver == false && second.type == "npc")
                 {
                     battleOver = Attack(second, first);
-                }                
+                    if (battleOver == true) loser = first;
+                }
+
+                if (battleOver == false && first.type == "player")
+                {
+                    Console.SetCursorPosition(4, next);
+                    Console.Write("(A)ttack   (R)un : ");
+                    next += 2;
+
+                    if (next > 36)
+                    {
+                        ReDraw();
+                        next = 2;
+                    }
+
+                    choice = Console.ReadKey(true); // build playerChoice()?;
+                    switch (choice.Key)
+                    {
+                        case ConsoleKey.A:
+                            battleOver = Attack(first, second);
+                            if (battleOver == true) loser = second;
+                            break;
+
+                        case ConsoleKey.R:
+                            // build run option
+                            Console.SetCursorPosition(4, next);
+                            Console.WriteLine("You don't know how to run yet!");
+                            next += 2;
+
+                            if (next > 36)
+                            {
+                                ReDraw();
+                                next = 2;
+                            }
+
+                            Console.ReadKey(true);
+                            break;
+                    }
+                }
             }
 
+            if (battleOver == true && turn != 1)
+            {
+                if (loser.type == "player")
+                {
+                    Console.SetCursorPosition(4, next);
+                    Console.WriteLine("I guess you suck, but I'll restore and respawn you!");
+                    Console.ReadKey(true);
+                    loser.health = loser.healthMax;
+                    loser.lives -= 1;
+                    loser.x = loser.spawn[0];
+                    loser.y = loser.spawn[1];
+                }
 
+                else
+                {
+                    Program.enemy = new Enemy();
+                }
+
+            }
         }
 
         static void ReDraw()
@@ -102,7 +208,6 @@ namespace TextBasedRPG_v1
                     Console.WriteLine(victim.name + " has DIED!");
                     next += 2;
                     Console.ReadKey(true);
-                    battleOver = true;
                     Program.redraw = true;
                     return true;
                 }
