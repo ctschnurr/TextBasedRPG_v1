@@ -61,18 +61,22 @@ namespace TextBasedRPG_v1
 
         static void HealCheck(Character player)
         {
-            if (player.x == 44 && player.y == 21)
+            if (player.x == 44 && player.y == 19)
             {
                 player.health = player.healthMax;
             }
         }
         static void MainMenu()
         {
-            getMap.DrawMap(getMap.blank_frame);
-            Console.SetCursorPosition(4, 3);
-            Console.WriteLine("Welcome to my Text Based RPG Prototype!");
+            int next = 3;
 
-            Console.SetCursorPosition(4, 5);
+            RefreshWindow();
+            getMap.DrawMap(getMap.blank_frame);
+            Console.SetCursorPosition(4, next);
+            Console.WriteLine("WELCOME TO THE GRAVEYARD!");
+            next += 2;
+
+            Console.SetCursorPosition(4, next);
             Console.WriteLine("Please choose from the following options:");
 
             Console.SetCursorPosition(4, 7);
@@ -88,12 +92,30 @@ namespace TextBasedRPG_v1
             switch (choice.Key)
             {
                 default:
+                    RefreshWindow();
                     getMap.DrawMap(getMap.blank_frame);
+                    next = 5;
+                    Console.SetCursorPosition(8, next);
+                    Console.WriteLine("¡Θ¡");
+                    next++;
+                    Console.SetCursorPosition(8, next);
+                    Console.WriteLine("╤═╤     Visit the shrine to heal!");
+                    next++;
+                    Console.SetCursorPosition(8, next);
+                    Console.WriteLine("┴▀┴");
+                    next += 2;
+                    Console.SetCursorPosition(9, next);
+                    Console.WriteLine((char)2 + "     Watch out for the Undead!");
+                    next += 2;
+                    Console.SetCursorPosition(8, next);
+                    Console.WriteLine("Press escape from the map to quit!");
+                    next += 6;
+
                     Console.SetCursorPosition(4, 40);
                     Console.WriteLine("By Chris Schnurr");
 
-                    Console.SetCursorPosition(4, 3);
-                    Console.Write("Please enter your name: ");
+                    Console.SetCursorPosition(4, next);
+                    Console.Write("Before we begin, please enter your name: ");
                     player.name = Console.ReadLine();
 
                     break;

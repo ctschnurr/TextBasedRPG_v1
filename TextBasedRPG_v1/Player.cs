@@ -107,7 +107,7 @@ namespace TextBasedRPG_v1
         {
             string hudHealth = health.ToString();
             Console.SetCursorPosition(4, 40);
-            Console.WriteLine(name.PadRight(name.Length + 1) + ": Health: " + hudHealth.PadRight(5) + "Lives: " + lives + " " + x + "," + y);
+            Console.WriteLine(name.PadRight(name.Length + 1) + ": Health: " + hudHealth.PadRight(5) + "Lives: " + lives);
         }
     }
 }
