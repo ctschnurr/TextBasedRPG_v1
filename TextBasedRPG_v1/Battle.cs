@@ -23,7 +23,7 @@ namespace TextBasedRPG_v1
                 ReDraw();
 
                 Random rand = new Random();
-                next = 2;
+                next = 3;
                 int swing;
                 int damage;
 
@@ -52,7 +52,7 @@ namespace TextBasedRPG_v1
                     if (next > 36)
                     {
                         ReDraw();
-                        next = 2;
+                        next = 3;
                     }
 
                     choice = Console.ReadKey(true); // build playerChoice()?;
@@ -72,7 +72,7 @@ namespace TextBasedRPG_v1
                             if (next > 36)
                             {
                                 ReDraw();
-                                next = 2;
+                                next = 3;
                             }
 
                             Console.ReadKey(true);
@@ -101,7 +101,7 @@ namespace TextBasedRPG_v1
                     if (next > 36)
                     {
                         ReDraw();
-                        next = 2;
+                        next = 3;
                     }
 
                     choice = Console.ReadKey(true); // build playerChoice()?;
@@ -121,7 +121,7 @@ namespace TextBasedRPG_v1
                             if (next > 36)
                             {
                                 ReDraw();
-                                next = 2;
+                                next = 3;
                             }
 
                             Console.ReadKey(true);

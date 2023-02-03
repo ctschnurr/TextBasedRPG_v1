@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,13 +15,15 @@ namespace TextBasedRPG_v1
         static public bool redraw = true;
         public static bool gameOver = false;
 
+        public static int height;
+        public static int width;
+
         static void Main(string[] args)
         {
-            int height = getMap.worldMap.GetLength(0) + 2;
-            int width = getMap.worldMap.GetLength(1) + 2;
+            height = getMap.worldMap.GetLength(0) + 2;
+            width = getMap.worldMap.GetLength(1) + 2;
 
-            Console.SetWindowSize(width, height);
-            Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
+            RefreshWindow();
             Console.CursorVisible = false;
 
             MainMenu();
@@ -30,14 +33,15 @@ namespace TextBasedRPG_v1
                 if (redraw)
                 {
                     getMap.DrawMap(getMap.worldMap);
-                    player.ShowHud();
                     redraw = false;
                 }
 
                 player.Draw(player.x + 2, player.y + 1, player.character);
+                player.ShowHud();
                 enemy.Draw(enemy.x + 2, enemy.y + 1, enemy.character);
                 player.Update(getMap.worldMap);
-                //BattleCheck(player, enemy);
+                RefreshWindow();
+                HealCheck(player);
                 Battle.BattleCheck(player, enemy);
                 enemy.Chase(player.x, player.y, getMap.worldMap);
                 Battle.BattleCheck(enemy, player);
@@ -45,6 +49,23 @@ namespace TextBasedRPG_v1
 
         }
 
+        static void RefreshWindow()
+        {
+            if (Console.WindowHeight != height || Console.WindowWidth != width)
+            {
+                Console.SetWindowSize(width, height);
+                Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
+                redraw = true;
+            }
+        }
+
+        static void HealCheck(Character player)
+        {
+            if (player.x == 44 && player.y == 21)
+            {
+                player.health = player.healthMax;
+            }
+        }
         static void MainMenu()
         {
             getMap.DrawMap(getMap.blank_frame);
@@ -80,167 +101,6 @@ namespace TextBasedRPG_v1
                 case ConsoleKey.Q:
                     gameOver = true;
                     break;
-            }
-        }
-
-        static void BattleCheck(Character first, Character second)
-        {
-            if (first.x == second.x && first.y == second.y)
-            {
-                getMap.DrawMap(getMap.blank_frame);
-                player.ShowHud();
-                enemy.ShowHud();
-
-                int next = 2;
-                Console.SetCursorPosition(4, next);
-                Console.WriteLine(first.name + " started a fight! " + first.name + " goes first!");
-                next += 2;
-                Console.ReadKey(true);
-
-                Random rand = new Random();
-                bool battleOver = false;
-                int swing;
-                int damage;
-                int turn = 1;
-                Character loser = null;
-
-                while (battleOver == false)
-                {
-
-                    if (turn == 1)
-                    {
-                        swing = rand.Next(1, 4);
-                        if (swing == 1)
-                        {
-                            Console.SetCursorPosition(4, next);
-                            Console.WriteLine(first.name + " missed!");
-                            next += 2;
-                            turn = 2;
-
-                            Console.ReadKey(true);
-
-                            if (next > 36)
-                            {
-                                Console.Clear();
-                                getMap.DrawMap(getMap.blank_frame);
-                                player.ShowHud();
-                                enemy.ShowHud();
-                                next = 2;
-                            }
-                        }
-
-                        else
-                        {
-                            damage = rand.Next(1, 11);
-
-                            Console.SetCursorPosition(4, next);
-                            Console.WriteLine(first.name + " hit " + second.name + " for " + damage + " damage!");
-                            next += 2;
-                            turn = 2;
-
-                            second.health -= damage;
-                            player.ShowHud();
-                            enemy.ShowHud();
-
-                            Console.ReadKey(true);
-
-                            if (next > 36)
-                            {
-                                Console.Clear();
-                                getMap.DrawMap(getMap.blank_frame);
-                                player.ShowHud();
-                                enemy.ShowHud();
-                                next = 2;
-                            }
-
-                            if (second.health <= 0)
-                            {
-                                Console.SetCursorPosition(4, next);
-                                Console.WriteLine(second.name + " has DIED!");
-                                next += 2;
-                                Console.ReadKey(true);
-                                battleOver = true;
-                                redraw = true;
-                                loser = second;
-                            }
-                        }
-                    }
-
-                    else if (turn == 2)
-                    {
-                        swing = rand.Next(1, 4);
-                        if (swing == 1)
-                        {
-                            Console.SetCursorPosition(4, next);
-                            Console.WriteLine(second.name + " missed!");
-                            next += 2;
-                            turn = 1;
-
-                            Console.ReadKey(true);
-
-                            if (next > 36)
-                            {
-                                Console.Clear();
-                                getMap.DrawMap(getMap.blank_frame);
-                                player.ShowHud();
-                                enemy.ShowHud();
-                                next = 2;
-                            }
-                        }
-
-                        else
-                        {
-                            damage = rand.Next(1, 11);
-
-                            Console.SetCursorPosition(4, next);
-                            Console.WriteLine(second.name + " hit " + first.name + " for " + damage + " damage!");
-                            next += 2;
-                            turn = 1;
-                            first.health -= damage;
-
-                            player.ShowHud();
-                            enemy.ShowHud();
-                            Console.ReadKey(true);
-
-
-                            if (next > 36)
-                            {
-                                Console.Clear();
-                                getMap.DrawMap(getMap.blank_frame);
-                                player.ShowHud();
-                                enemy.ShowHud();
-                                next = 2;
-                            }
-
-                            if (first.health <= 0)
-                            {
-                                Console.SetCursorPosition(4, next);
-                                Console.WriteLine(first.name + " has DIED!");
-                                next += 2;
-                                Console.ReadKey(true);
-                                battleOver = true;
-                                redraw = true;
-                                loser = first;
-                            }
-                        }
-                    }                                
-                }
-
-                if (loser == player)
-                {
-                    Console.SetCursorPosition(4, next);
-                    Console.WriteLine("I guess you suck, but I'll restore and respawn you!");
-                    Console.ReadKey(true);
-                    loser.lives -= 1;
-                    loser.x = loser.spawn[0];
-                    loser.y = loser.spawn[1];
-                }
-
-                else
-                {
-                    enemy = new Enemy();
-                }
-
             }
         }
 
